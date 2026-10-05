@@ -121,8 +121,6 @@ store. Keep them when you touch the chrome, the tokens or a `<head>` asset.
 - **Touch targets.** Interactive elements are ≥ 24×24 CSS px. Use the `Button` sizes (`icon-sm` for
   icon buttons); never shrink one back down with `h-auto p-1`. A decorative dot belongs in an
   `aria-hidden` span inside a 24 px button, not as the button.
-- **Fixed docks.** The "Made with YNS" badge, the chat launcher and the newsletter launcher all sit
-  at `z-50`/`bottom-4`; the consent banner is `z-[60]` so its controls stay above them and clickable.
 - **Measure it.** `bun run audit <url>` against `bun start` while working, and
   `bun run audit https://<store>/` after publishing. The accessibility audits are deterministic —
   a failure is a real defect; the simulated performance numbers swing ±0.3 s run to run, so compare

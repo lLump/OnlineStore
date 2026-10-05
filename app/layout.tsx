@@ -197,8 +197,7 @@ async function CartProviderWrapper({ children }: { children: React.ReactNode }) 
 				<Suspense>
 					<CartBootstrapper />
 				</Suspense>
-				{/* Inside CartProvider on purpose: add-to-cart from chat uses the cart context.
-			    Also renders the "Made with YNS" badge so badge and launcher share one dock. */}
+				{/* Inside CartProvider on purpose: add-to-cart from chat uses the cart context. */}
 				<Suspense>
 					<StoreChatSection />
 				</Suspense>
