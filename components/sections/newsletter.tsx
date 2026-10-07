@@ -1,0 +1,72 @@
+"use client";
+
+import { ArrowRightIcon, CheckIcon } from "lucide-react";
+import { useActionState, useState } from "react";
+import { subscribeToNewsletter } from "@/app/newsletter/action";
+import { NewsletterConsent } from "@/components/newsletter-consent";
+
+export function Newsletter() {
+	const [state, action, isPending] = useActionState(subscribeToNewsletter, null);
+	const [marketingConsent, setMarketingConsent] = useState(false);
+
+	return (
+		<section id="contact" className="relative bg-ember text-cream overflow-hidden">
+			<div aria-hidden className="absolute inset-0 bg-fire-soft opacity-95" />
+			<div aria-hidden className="absolute inset-0 flame-noise opacity-50" />
+			<div className="relative max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-12 pt-10 sm:pt-14 pb-20 sm:pb-28">
+				<div className="max-w-2xl mx-auto text-center">
+					{state?.success ? (
+						<div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+							<div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-gold text-soot">
+								<CheckIcon className="h-7 w-7" />
+							</div>
+							<h2 className="font-display text-5xl text-cream">Jste na seznamu.</h2>
+							<p className="mt-3 text-cream/80">{state.message}</p>
+						</div>
+					) : (
+						<>
+							<span className="inline-flex items-center gap-3 text-[11px] font-condensed tracking-[0.32em] text-gold">
+								<span aria-hidden className="h-px w-10 bg-gold/70" />
+								Dopisy z ohniště
+								<span aria-hidden className="h-px w-10 bg-gold/70" />
+							</span>
+							<h2 className="mt-5 font-display text-5xl sm:text-6xl text-cream leading-[1.02] heading-shadow">
+								Jednou měsíčně — jen to podstatné.
+							</h2>
+							<p className="mt-5 text-cream/85 max-w-md mx-auto leading-relaxed">
+								Novinky, tajné recepty a občas i upřímný názor. Jeden e-mail měsíčně. Slibujeme, že nikdy nebudeme zdvořilí.
+							</p>
+							<form action={action} className="mx-auto mt-10 max-w-md flex flex-col gap-4">
+								<div className="flex flex-col gap-3 sm:flex-row">
+									<input
+										type="email"
+										name="email"
+										placeholder="your@email.com"
+										required
+										className="h-12 w-full flex-1 border-2 border-cream/30 bg-soot/40 px-5 text-cream outline-none transition-all placeholder:text-cream/40 focus:border-gold focus:bg-soot/60 font-body"
+									/>
+									<button
+										type="submit"
+										disabled={isPending || !marketingConsent}
+										className="inline-flex h-12 shrink-0 items-center justify-center gap-2 bg-gold px-7 font-condensed tracking-[0.18em] text-sm text-soot border-2 border-gold hover:bg-cream hover:border-cream transition-colors disabled:opacity-50"
+									>
+										{isPending ? "Odesíláme…" : "Odebírat"}
+										{!isPending && <ArrowRightIcon className="h-4 w-4" />}
+									</button>
+								</div>
+								<NewsletterConsent
+									checked={marketingConsent}
+									onCheckedChange={setMarketingConsent}
+									disabled={isPending}
+								/>
+							</form>
+							{state?.error && (
+								<p className="mt-4 text-sm text-cream/95 bg-soot/40 inline-block px-3 py-1">{state.error}</p>
+							)}
+						</>
+					)}
+				</div>
+			</div>
+		</section>
+	);
+}
